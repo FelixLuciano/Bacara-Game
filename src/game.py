@@ -87,7 +87,7 @@ def draw_cards ():
   playernames = players[::2]
   cards = []
 
-  for i in range(0, len(playernames)):
+  while len(cards) < len(playernames):
     player_cards = []
     cards_sum = 0
 

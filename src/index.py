@@ -6,7 +6,7 @@ def init ():
   print_greetings()
   register_players()
   if len(players):
-    print("Placar Inicial")
+    print(colored("§B§rPlacar Inicial§0\n"))
     print_stats(players)
     print("")
 
