@@ -25,7 +25,7 @@ def print_stats (players):
   scores = players[1::2]
   max_scores_len = max(utils.get_max_len(scores), 6)
 
-  print(f"┌ NOME { '─' * (max_playername_len - 6 + 3) } FICHAS{ '─' * (max_scores_len - 8) } ┐")
+  print(f"┌ NOME { '─' * (max_playername_len - 6 + 3) } FICHAS { '─' * (max_scores_len - 6) }┐")
 
   i = 0
   while i < len(players):
