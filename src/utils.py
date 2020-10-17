@@ -1,3 +1,6 @@
+from game import players
+from game import cards
+
 def colored (text):
   colors = {
     'r': 31,
@@ -36,41 +39,3 @@ def get_max_len (list):
     max_len = max(max_len, len(str(item)))
 
   return max_len
-
-
-def card_description (card, deck_amount):
-  card_id, deck, suit, number, value = card
-
-  suits_names = ["Paus", "Copas", "Espadas", "Ouros"]
-  cards_names = ["Ás", 2, 3, 4, 5, 6, 7, 8, 9, 10, "Valete", "Rainha", "Rei"]
-
-  description = f"{cards_names[number]} de {suits_names[suit]}"
-
-  if deck_amount > 1:
-    description += f" do {deck + 1}º baralho"
-
-  description += f" ({value} pontos)"
-
-  return description
-
-def print_player_cards (playername, cards, deck_amount):
-  score = 0
-
-  print(colored(f"\n§BCartas de §y{playername}§0:"))
-
-  for card in cards:
-    print(f" - {card_description(card, deck_amount)}")
-
-    score += card[4]
-  
-  print(colored(f"\n§g > {playername} marcou {score} pontos!§0"))
-
-
-def print_cards (players, cards, deck_amount):
-  playernames = players[::2]
-
-  for i in range(0, len(playernames)):
-    playername = playernames[i]
-    player_cards = cards[i]
-
-    print_player_cards(playername, player_cards, deck_amount)

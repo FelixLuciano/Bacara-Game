@@ -1,3 +1,5 @@
+from game import players
+from game import tokens
 import utils
 
 def print_greetings ():
@@ -18,28 +20,23 @@ def print_greetings ():
 
   print(utils.colored('\n'.join(lines)))
 
-def print_stats (players):
-  playernames = players[::2]
-  max_playername_len = max(utils.get_max_len(playernames), 4)
+def print_stats ():
+  header = ("NOME", "FICHAS")
 
-  scores = players[1::2]
-  max_scores_len = max(utils.get_max_len(scores), 6)
+  max_names_len = max(utils.get_max_len(players.get_players()), len(header[0]))
+  max_tokens_len = max(utils.get_max_len(tokens.get_tokens()), len(header[1]))
 
-  print(f"┌ NOME { '─' * (max_playername_len - 6 + 3) } FICHAS { '─' * (max_scores_len - 6) }┐")
+  print(f"┌ {header[0]} { '─' * (max_names_len - 6 + 3) } {header[1]} { '─' * (max_tokens_len - 6) }┐")
 
-  i = 0
-  while i < len(players):
-    name = players[i]
-    score = players[i + 1]
+  for player in players.get_players_info():
+    name, player_tokens, cards = player
 
-    playername_length = len(name)
-    playername_spacer = " " * (max_playername_len - playername_length + 3)
+    name_length = len(name)
+    name_spacer = " " * (max_names_len - name_length + 3)
 
-    score_length = len(str(score))
-    score_spacer = " " * (max_scores_len - score_length)
+    tokens_length = len(str(player_tokens))
+    tokens_spacer = " " * (max_tokens_len - tokens_length)
 
-    print(f"│ {name}{playername_spacer}{score}{score_spacer} │")
+    print(utils.colored(f"│ §y{name}{name_spacer}§g{player_tokens}{tokens_spacer} §0│"))
 
-    i += 2
-
-  print("└" + "─" * (max_playername_len + 3 + max_scores_len + 2) + "┘")
+  print("└" + "─" * (max_names_len + 3 + max_tokens_len + 2) + "┘")
