@@ -1,23 +1,6 @@
 from . import players
-from utils import colored
+import utils
 from random import randint
-
-
-cards = []
-
-def get_cards ():
-  return cards
-
-def get_players_cards ():
-  return cards[:-1]
-
-def get_bank_cards ():
-  return cards[-1]
-
-def set_cards (new_cards):
-  for i in range(0, len(new_cards)):
-    player_cards = new_cards[i]
-    cards[i] = player_cards
 
 
 suits_names = ["Paus", "Copas", "Espadas", "Ouros"]
@@ -26,7 +9,7 @@ deck_suits = len(suits_names)
 cards_names = ["Ás", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Valete", "Rainha", "Rei"]
 suit_values = len(cards_names)
 
-deck_amount = 4
+deck_amount = 4 # int(input("Quantos baralhos? "))
 
 deck_size = suit_values * deck_suits
 card_amount = deck_size * deck_amount
@@ -57,9 +40,7 @@ def get_new_random_card (cards_list):
     new_card = get_random_card()
 
     if not new_card in players_cards:
-      break
-
-  return new_card
+      return new_card
 
 
 def sum_cards_values (cards):
@@ -71,32 +52,65 @@ def sum_cards_values (cards):
 
   return sum
 
+def sum_players_cards (players_cards):
+  players_cards_value_sum = []
 
-def draw_cards ():
-  players_cards = []
+  for player_cards in players_cards:
+    player_cards_value_sum = sum_cards_values(player_cards)
+
+    players_cards_value_sum.append(sum_players_cards)
+
+  return players_cards_value_sum
+
+
+def draw_cards (playersnames):
+  cards = []
 
   # Draw 2 cards
-  for player in players.get_players():
+  for player in playersnames:
     player_cards = []
 
     while len(player_cards) < 2:
-      card = get_new_random_card(players_cards)
+      card = get_new_random_card(cards)
 
       player_cards.append(card)
 
-    players_cards.append(player_cards)
+    cards.append(player_cards)
 
-  # Draw 3dr card
-  for i in range(0, len(players_cards)):
-    player_cards = players_cards[i]
-    value_sum = sum_cards_values(player_cards)
+  bank_cards = cards[-1]
+  bank_cards_value_sum = sum_cards_values(bank_cards)
+  player_drawed_3dr_card = False
 
-    if value_sum <= 5:
-      card = get_new_random_card(players_cards)
+  # Draw 3dr players card
+  for i in range(0, len(players.get_real_players(cards))):
+    player_cards = cards[i]
+    cards_value_sum = sum_cards_values(player_cards)
 
-      players_cards[i].append(card)
+    if cards_value_sum <= 5 and bank_cards_value_sum < 8:
+      card = get_new_random_card(cards)
 
-  set_cards(players_cards)
+      cards[i].append(card)
+      player_drawed_3dr_card = True
+
+  # Draw 3dr bank card
+  if bank_cards_value_sum <= 5 and not bank_cards_value_sum >= 6:
+    draw_bank_card = True
+
+    if player_drawed_3dr_card:
+      players_cards_value_sum = sum_players_cards(players.get_real_players(cards))
+
+      for possibility in ((3, (8)),(4, (0, 1, 8, 9)),(5, (0, 1, 2, 3, 8, 9))):
+        bank_cards_value_sum_possibility, player_cards_value_sum_possibilityes = possibility
+
+        if bank_cards_value_sum == bank_cards_value_sum_possibility:
+          for player_cards_value_sum_possibility in player_cards_value_sum_possibilityes:
+            if player_cards_value_sum_possibility in players_cards_value_sum:
+              draw_bank_card = False
+
+    if draw_bank_card:
+      cards[-1].append(get_new_random_card(cards))
+
+  return cards
 
 
 def card_description (card_info):
@@ -112,23 +126,22 @@ def card_description (card_info):
   return description
 
 def print_player_cards (playername, cards):
-  player_tokens = 0
+  cards_points = sum_cards_values(cards)
 
-  print(colored(f"\n§BCartas de §y{playername}§0:"))
+  print(utils.colored(f"\n§BCartas de §y{playername}§0:"))
 
   for card in cards:
     card_info = get_card_info(card)
-    card_id, deck, suit, number, value = card_info
-    
-    player_tokens += value
 
     print(f" - {card_description(card_info)}")
   
-  print(colored(f"\n§g > {playername} marcou {player_tokens} pontos!§0"))
+  print(utils.colored(f"\n§g > {playername} marcou {cards_points} pontos!§0"))
 
 
-def print_cards ():
-  for player_info in players.get_players_info():
-    playername, player_tokens, cards = player_info
+def print_cards (playernames, tokens):
+  playernames_cards = list(zip(playernames, tokens))
+
+  for playername_cards in playernames_cards:
+    playername, cards = playername_cards
 
     print_player_cards(playername, cards)

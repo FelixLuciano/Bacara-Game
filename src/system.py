@@ -1,5 +1,3 @@
-from game import players
-from game import tokens
 import utils
 
 def print_greetings ():
@@ -20,16 +18,17 @@ def print_greetings ():
 
   print(utils.colored('\n'.join(lines)))
 
-def print_stats ():
+def print_stats (players, tokens):
   header = ("NOME", "FICHAS")
+  body = zip(players, tokens)
 
-  max_names_len = max(utils.get_max_len(players.get_players()), len(header[0]))
-  max_tokens_len = max(utils.get_max_len(tokens.get_tokens()), len(header[1]))
+  max_names_len = utils.get_max_len(players + [ header[0] ])
+  max_tokens_len = utils.get_max_len(tokens + [ header[1] ])
 
   print(f"┌ {header[0]} { '─' * (max_names_len - 6 + 3) } {header[1]} { '─' * (max_tokens_len - 6) }┐")
 
-  for player in players.get_players_info():
-    name, player_tokens, cards = player
+  for line in body:
+    name, player_tokens = line
 
     name_length = len(name)
     name_spacer = " " * (max_names_len - name_length + 3)

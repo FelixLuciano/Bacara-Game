@@ -39,3 +39,12 @@ def get_max_len (list):
     max_len = max(max_len, len(str(item)))
 
   return max_len
+
+
+def get_lower_strings (string_list):
+  lower_strings = []
+
+  for string in string_list:
+    lower_strings.append(string.lower())
+
+  return lower_strings
