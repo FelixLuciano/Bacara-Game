@@ -9,14 +9,21 @@ def init ():
 
   players_names, players_tokens = players.register_players()
 
-  print(utils.colored("§B§rPlacar Inicial§0\n"))
+  utils.print_colored("§B§rPlacar Inicial§0\n")
   system.print_stats(players_names, players_tokens)
 
-  print(utils.colored("\n§B§rRODADA 1§0"))
+  round = 1
+  while True:
+    utils.print_colored(f"\n§B§rRODADA {round}§0\n")
 
-  round_bets = bets.ask_bets(players_names, players_tokens)
-  round_cards = cards.draw_cards(players_names)
+    players_names, players_tokens, round_bets = bets.ask_bets(players_names, players_tokens)
 
-  cards.print_cards(players_names, round_cards)
+    utils.print_colored("§B§rDANDO AS CARTAS...§0")
+
+    round_cards = cards.draw_cards(players_names)
+
+    cards.print_cards(players_names, round_cards)
+
+    round += 1
 
 init()

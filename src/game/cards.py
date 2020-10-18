@@ -63,11 +63,11 @@ def sum_players_cards (players_cards):
   return players_cards_value_sum
 
 
-def draw_cards (playersnames):
+def draw_cards (players_list):
   cards = []
 
   # Draw 2 cards
-  for player in playersnames:
+  for player in players_list:
     player_cards = []
 
     while len(player_cards) < 2:
@@ -128,20 +128,20 @@ def card_description (card_info):
 def print_player_cards (playername, cards):
   cards_points = sum_cards_values(cards)
 
-  print(utils.colored(f"\n§BCartas de §y{playername}§0:"))
+  utils.print_colored(f"\n§BCartas de §y{playername}§0:")
 
   for card in cards:
     card_info = get_card_info(card)
 
     print(f" - {card_description(card_info)}")
   
-  print(utils.colored(f"\n§g > {playername} marcou {cards_points} pontos!§0"))
+  utils.print_success(f"{playername} marcou {cards_points} pontos!")
 
 
-def print_cards (playernames, tokens):
-  playernames_cards = list(zip(playernames, tokens))
+def print_cards (players_list, tokens):
+  players_names_tokens = list(zip(players_list, tokens))
 
-  for playername_cards in playernames_cards:
-    playername, cards = playername_cards
+  for player_name_tokens in players_names_tokens:
+    player_name, player_cards = player_name_tokens
 
-    print_player_cards(playername, cards)
+    print_player_cards(player_name, player_cards)

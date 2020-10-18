@@ -33,6 +33,28 @@ def colored (text):
   return text
 
 
+def print_colored (message):
+  print(colored(message))
+
+
+def print_info (message):
+  text = f"\n§B§b > {message}§0\n"
+
+  print(colored(text))
+
+
+def print_success (message):
+  text = f"\n§B§g > {message}§0\n"
+
+  print(colored(text))
+
+
+def print_warn (message):
+  text = f"\n§B§r > {message}§0\n"
+
+  print(colored(text))
+
+
 def get_max_len (list):
   max_len = 0
   for item in list:

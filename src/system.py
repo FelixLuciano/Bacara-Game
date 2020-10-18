@@ -1,3 +1,4 @@
+import sys
 import utils
 
 def print_greetings ():
@@ -9,14 +10,14 @@ def print_greetings ():
     "██▄▪▐█▐█ ▪▐▌▐█  █▐█ ▪▐▌▐█•█▌▐█ ▪▐▌",
     "·▀▀▀▀  ▀  ▀ ·▀▀▀  ▀  ▀ .▀  ▀ ▀  ▀ ",
     "",
-    "§B§gSeja bem vindo(a) ao Bacará!§0",
-    "Por Luciano Felix",
+    "§B§g > Seja bem vindo(a) ao BACARA!§0",
+    "   Por Luciano Felix",
     "",
     "Insira as informações para começar...",
     ""
   ]
 
-  print(utils.colored('\n'.join(lines)))
+  utils.print_colored('\n'.join(lines))
 
 def print_stats (players, tokens):
   header = ("NOME", "FICHAS")
@@ -36,6 +37,10 @@ def print_stats (players, tokens):
     tokens_length = len(str(player_tokens))
     tokens_spacer = " " * (max_tokens_len - tokens_length)
 
-    print(utils.colored(f"│ §y{name}{name_spacer}§g{player_tokens}{tokens_spacer} §0│"))
+    utils.print_colored(f"│ §y{name}{name_spacer}§g{player_tokens}{tokens_spacer} §0│")
 
   print("└" + "─" * (max_names_len + 3 + max_tokens_len + 2) + "┘")
+
+def game_over ():
+  utils.print_warn("Fim de jogo!")
+  sys.exit()

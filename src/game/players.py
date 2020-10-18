@@ -1,5 +1,5 @@
 import utils
-import sys
+import system
 
 game_names = [ "", "não", "nao", "n", "banco" ]
 exit_names = game_names[0:4]
@@ -16,11 +16,11 @@ def get_playername (name, player_list):
     if name.lower() == playername.lower():
       return playername
 
-  return false
+  return False
 
 
 def register_players ():
-  players = []
+  players_list = []
   tokens = []
 
   taken_names = game_names
@@ -41,33 +41,32 @@ def register_players ():
           tokens_amount = int_tokens
 
         else:
-          print(utils.colored("§0Não é possível entrar no jogo sem fichas!\n"))
+          utils.print_colored("§0Não é possível entrar no jogo sem fichas!\n")
           continue
           
       taken_names.append(name_lower)
-      players.append(name)
+      players_list.append(name)
       tokens.append(tokens_amount)
 
-      print(utils.colored(f"\n§g > {name} entrou no jogo com {tokens_amount} fichas!§0\n"))
+      utils.print_success(f"{name} entrou no jogo com {tokens_amount} fichas!")
 
       index += 1
 
     elif name_lower in exit_names:
-      print(utils.colored(f"§0Fim da entrada de jogadores."))
+      utils.print_colored(f"§0Fim da entrada de jogadores.")
 
       break
 
     else:
-      print(utils.colored(f"§0Não é possível usar esse nome!\n"))
+      utils.print_colored(f"§0Não é possível usar esse nome!\n")
 
-  if has_players(players):
-    players.append("Banco")
+  if has_players(players_list):
+    players_list.append("Banco")
     tokens.append("∞")
 
-    print(utils.colored(f"\n§g > Banco entrou no jogo com infinitas fichas!§0\n"))
+    utils.print_success(f"Banco entrou no jogo com infinitas fichas!")
 
   else:
-    print(utils.colored("\n§B§rFim de jogo!§0"))
-    sys.exit()
+    system.game_over()
 
-  return (players, tokens)
+  return (players_list, tokens)

@@ -1,5 +1,4 @@
 tokens = []
-# tokens = [100, 100, 999999, "∞"]
 
 
 def get_tokens ():

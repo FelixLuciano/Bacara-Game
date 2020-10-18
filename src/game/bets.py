@@ -1,4 +1,5 @@
 from . import players
+import system
 import utils
 
 bets = []
@@ -18,70 +19,94 @@ def ask_bet_bid (input_message, player_tokens):
     if bet_bid_input:
       bet_bid = int(bet_bid_input)
 
-      if bet_bid <= 0 or bet_bid > player_tokens:
-        print(utils.colored("§0Não é possível apostar essa quantia!"))
+      if bet_bid < 0 or bet_bid > player_tokens:
+        utils.print_colored("§0Não é possível apostar essa quantia!")
 
       else:
         return bet_bid
         break
 
     else:
-      print(utils.colored("§0É necessário que seja dado um valor!"))
+      return False
   
 
-def ask_bets (playernames, tokens):
-  playernames_tokens = list(zip(playernames, tokens))
-  player_bets = []
+def get_betting_players (players_list, tokens, bets):
+  betting_players = []
+  betting_tokens = []
+  betting_bet = []
 
-  for playername_tokens in players.get_real_players(playernames_tokens):
-    playername, tokens = playername_tokens
+  for i in range(0, len(players_list)):
+    player_name = players_list[i]
+
+    if bets[i] or player_name == "Banco":
+      betting_players.append(player_name)
+      betting_tokens.append(tokens[i])
+      betting_bet.append(bets[i])
+
+  return (betting_players, betting_tokens, betting_bet)
+
+
+def ask_bets (players_names, players_tokens):
+  players_names_tokens = list(zip(players_names, players_tokens))
+  players_bets = []
+
+  for player_name_tokens in players.get_real_players(players_names_tokens):
+    playername, tokens = player_name_tokens
 
     player_bet = []
 
-    while True:
-      bet_what = input(utils.colored(f"§0Jogador, banco ou empate. Qual a sua aposta, {playername}? §b"))
-      bet_what_lower = bet_what.lower()
+    bet_bid = ask_bet_bid(f"§0Quanto você aposta nesta rodada, {playername}? (Ou saia sem apostar) §g", tokens)
 
-      if bet_what_lower in ["jogador", "j"]:
-        player_bet.append("p")
+    if bet_bid:
+      player_bet.append(bet_bid)
 
-        while True:
-          bet_who = input(utils.colored(f"§0Em qual jogador você aposta, {playername}? §y"))
+      while True:
+        bet_what = input(utils.colored(f"§0Jogador, banco ou empate. Em que você aposta {bet_bid} fichas, {playername}? §b"))
+        bet_what_lower = bet_what.lower()
 
-          bet_player = players.get_playername(bet_who, playernames)
+        if bet_what_lower in ["jogador", "j"]:
+          player_bet.append("p")
 
-          if bet_player and bet_who.lower() !=  playername.lower():
-            bet_bid = ask_bet_bid(f"§0quanto você aposta em {bet_player}, {playername}? §y", tokens)
+          while True:
+            bet_who = input(utils.colored(f"§0Em qual jogador você aposta {bet_bid} fichas, {playername}? §y"))
 
-            player_bet.append(bet_bid)
-            player_bet.append(bet_player)
-            print(utils.colored(f"\n§g > {playername} apostou {bet_bid} em {bet_player}!§0\n"))
-            break
+            bet_player = players.get_playername(bet_who, players_names)
 
-          else:
-            print(utils.colored("§0Não é possível apostar nesse jogador!"))
+            if bet_player and bet_who.lower() != playername.lower():
+              player_bet.append(bet_player)
+              utils.print_success(f"{playername} apostou {bet_bid} fichas em {bet_player}!")
+              break
 
-        break
+            else:
+              utils.print_colored("§0Não é possível apostar nesse jogador!")
 
-      elif bet_what_lower in ["banco", "b"]:
-        bet_bid = ask_bet_bid(f"§0quanto você aposta no Banco, {playername}? §g", tokens)
+          break
 
-        player_bet.append("b")
-        player_bet.append(bet_bid)
-        print(utils.colored(f"\n§g > {playername} apostou {bet_bid} no Banco!§0\n"))
-        break
+        elif bet_what_lower in ["banco", "b"]:
+          player_bet.append("b")
+          utils.print_success(f"{playername} apostou {bet_bid} fichas no Banco!")
+          break
 
-      elif bet_what_lower in ["empate", "e"]:
-        bet_bid = ask_bet_bid(f"§0quanto você aposta por um empate no jogo, {playername}? §g", tokens)
-        
-        player_bet.append("t")
-        player_bet.append(bet_bid)
-        print(utils.colored(f"\n§g > {playername} apostou {bet_bid} por um empate no jogo!§0\n"))
-        break
+        elif bet_what_lower in ["empate", "e"]:
+          player_bet.append("t")
+          utils.print_success(f"{playername} apostou {bet_bid} fichas por um empate no jogo!")
+          break
 
-      else:
-        print(utils.colored("§0Não é possível realizar esse tipo de aposta!"))
+        else:
+          utils.print_colored("§0Não é possível realizar esse tipo de aposta!")
 
-    player_bets.append(player_bet)
+    else:
+      utils.print_info(f"{playername} saiu do jogo com {tokens} fichas!")
 
-  return player_bets
+    players_bets.append(player_bet)
+
+  # Bank bet
+  players_bets.append([])
+
+  # Update players, removing who didn't bet
+  players_names, players_tokens, players_bets = get_betting_players(players_names, players_tokens, players_bets)
+
+  if not players.has_players(players_names):
+    system.game_over()
+
+  return (players_names, players_tokens, players_bets)
