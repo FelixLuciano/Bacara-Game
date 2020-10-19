@@ -9,10 +9,10 @@ def print_greetings ():
     "▐█▀▀█▄▄█▀▀█ ██   ▄█▀▀█ ▐▀▀▄ ▄█▀▀█ ",
     "██▄▪▐█▐█ ▪▐▌▐█  █▐█ ▪▐▌▐█•█▌▐█ ▪▐▌",
     "·▀▀▀▀  ▀  ▀ ·▀▀▀  ▀  ▀ .▀  ▀ ▀  ▀ ",
-    "",
-    "§B§g > Seja bem vindo(a) ao BACARA!§0",
-    "   Por Luciano Felix",
-    "",
+    "§B",
+    "§g > Seja bem vindo(a) ao BACARA!",
+    "§w   Por Luciano Felix",
+    "§0",
     "Insira as informações para começar...",
     ""
   ]

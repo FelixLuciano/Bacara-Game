@@ -4,9 +4,14 @@ from game import cards
 import system
 import utils
 
-def init ():
-  system.print_greetings()
 
+def setup ():
+  cards.deck_amount = max(1, int(input("1, 6, 8... Com quantos baralhos desejas jogar? ")))
+
+  print("")
+
+
+def play ():
   players_names, players_tokens = players.register_players()
 
   utils.print_colored("§B§rPlacar Inicial§0\n")
@@ -26,5 +31,11 @@ def init ():
     cards.print_cards(players_names, round_cards)
 
     round += 1
+
+
+def init ():
+  system.print_greetings()
+  # setup()
+  play()
 
 init()

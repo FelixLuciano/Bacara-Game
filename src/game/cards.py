@@ -9,7 +9,7 @@ deck_suits = len(suits_names)
 cards_names = ["Ás", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Valete", "Rainha", "Rei"]
 suit_values = len(cards_names)
 
-deck_amount = 4 # int(input("Quantos baralhos? "))
+deck_amount = 1
 
 deck_size = suit_values * deck_suits
 card_amount = deck_size * deck_amount
