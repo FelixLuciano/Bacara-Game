@@ -58,7 +58,7 @@ def play ():
 
 def init ():
   system.print_greetings()
-  # setup()
+  setup()
   play()
 
 init()
