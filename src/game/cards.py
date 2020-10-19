@@ -50,6 +50,8 @@ def sum_cards_values (cards):
     card_value = get_card_info(card)[4]
     sum += card_value
 
+  sum %= 10
+
   return sum
 
 def sum_players_cards (players_cards):
