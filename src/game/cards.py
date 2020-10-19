@@ -147,3 +147,17 @@ def print_cards (players_list, tokens):
     player_name, player_cards = player_name_tokens
 
     print_player_cards(player_name, player_cards)
+
+
+def get_winners (players_list, cards_sum):
+  max_value = max(cards_sum)
+
+  players_names_sums = list(zip(players_list, cards_sum))
+  winners = []
+
+  for player_name_sum in players_names_sums
+    player_name, value_sum = player_name_sum
+
+    is_winner = value_sum == max_value:
+
+    winners.append(is_winner)

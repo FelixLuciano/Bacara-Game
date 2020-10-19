@@ -24,7 +24,6 @@ def ask_bet_bid (input_message, player_tokens):
 
       else:
         return bet_bid
-        break
 
     else:
       return False
