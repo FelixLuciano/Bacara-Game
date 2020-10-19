@@ -27,8 +27,12 @@ def play ():
     utils.print_colored("§B§rDANDO AS CARTAS...§0\n")
 
     round_cards = cards.draw_cards(players_names)
+    cards_sum = cards.sum_players_cards(round_cards)
 
     cards.print_cards(players_names, round_cards)
+
+    round_winners = cards.get_winners(players_names, cards_sum)
+    print(round_winners)
 
     round += 1
 

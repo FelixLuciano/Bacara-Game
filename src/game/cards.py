@@ -60,7 +60,7 @@ def sum_players_cards (players_cards):
   for player_cards in players_cards:
     player_cards_value_sum = sum_cards_values(player_cards)
 
-    players_cards_value_sum.append(sum_players_cards)
+    players_cards_value_sum.append(player_cards_value_sum)
 
   return players_cards_value_sum
 
@@ -155,9 +155,11 @@ def get_winners (players_list, cards_sum):
   players_names_sums = list(zip(players_list, cards_sum))
   winners = []
 
-  for player_name_sum in players_names_sums
+  for player_name_sum in players_names_sums:
     player_name, value_sum = player_name_sum
 
-    is_winner = value_sum == max_value:
+    is_winner = value_sum == max_value
 
     winners.append(is_winner)
+
+  return winners
