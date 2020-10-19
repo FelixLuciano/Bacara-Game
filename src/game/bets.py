@@ -172,42 +172,31 @@ def get_prizes (player_names, player_bets, bet_winners, deck_amount):
 
   prizes = []
 
-  if utils.has_true(bet_winners):
-    for i in range(0, len(player_names)):
-      player_name = player_names[i]
-      player_bet = player_bets[i]
-      bet_amount = player_bet[0]
-      bet_type = player_bet[1]
-      player_wins = bet_winners[i]
+  for i in range(0, len(player_names)):
+    player_name = player_names[i]
+    player_bet = player_bets[i]
+    bet_amount = player_bet[0]
+    bet_type = player_bet[1]
+    player_wins = bet_winners[i]
 
-      if player_wins:
-        player_comission, bank_comission, tie_comissio = house_comission
+    if player_wins:
+      player_comission, bank_comission, tie_comissio = house_comission
 
-        if bet_type == "player":
-          bet_amount *= 1 - player_comission / 100
+      if bet_type == "player":
+        bet_amount *= 1 - player_comission / 100
 
-        if bet_type == "bank":
-          bet_amount *= 1 - bank_comission / 100
+      if bet_type == "bank":
+        bet_amount *= 1 - bank_comission / 100
 
-        if bet_type == "tie":
-          bet_amount *= 8
-          bet_amount *= 1 - tie_comissio / 100
+      if bet_type == "tie":
+        bet_amount *= 8
+        bet_amount *= 1 - tie_comissio / 100
 
-        bet_amount = int(bet_amount)
+      bet_amount = int(bet_amount)
 
-      elif not player_wins:
-          bet_amount *= -1
+    elif not player_wins:
+        bet_amount *= -1
 
-      prizes.append(bet_amount)
-
-  else:
-    for i in range(0, len(players.get_real_players(players_names))):
-      player_name = players_names[i]
-      player_bet = round_bets[i]
-      bet_amount = player_bet[0]
-
-      prizes.append(-bet_amount)
-
-    utils.print_warn("Ninguém venceu o round!")  
+    prizes.append(bet_amount)
 
   return prizes

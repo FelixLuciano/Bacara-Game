@@ -47,11 +47,31 @@ def play ():
         utils.print_success(f"{playername} ganhou a aposta e recebeu {prize_amount} fichas!")
 
       if (prize_amount < 0):
-        utils.print_danger(f"{playername} perdeu a aposta e pagou {prize_amount} fichas!")
+        utils.print_danger(f"{playername} perdeu a aposta e pagou {abs(prize_amount)} fichas!")
+
+    i = 0
+    while True:
+      if not i < len(players.get_real_players(players_names)):
+        break
+      
+      if players_tokens[i] == 0:
+        player_name = players_names[i]
+
+        del players_names[i]
+        del players_tokens[i]
+
+        utils.print_warn(f"{player_name} saiu do jogo com nenhuma ficha!")
+        continue
+
+      i += 1
+
+    if not players.has_players(players_names):
+      system.game_over()
 
     utils.print_colored("§B§rNovo placar§0\n")
     system.print_stats(players_names, players_tokens)
     print("")
+    
 
     round += 1
 
