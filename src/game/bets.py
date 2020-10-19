@@ -2,7 +2,8 @@ from . import players
 import system
 import utils
 
-bets = []
+
+house_comissions = ((1.29, 1.01, 15.75), (1.24, 1.06, 14.44), (1.24, 1.06, 14.36))
 
 
 def get_bets ():
@@ -159,7 +160,16 @@ def get_winners (players_list, players_bets, cards_winners):
   return winners
 
 
-def get_prizes (player_names, player_bets, bet_winners):
+def get_prizes (player_names, player_bets, bet_winners, deck_amount):
+  if deck_amount < 6:
+    house_comission_index = 0
+  elif deck_amount < 8:
+    house_comission_index = 1
+  else:
+    house_comission_index = 2
+
+  house_comission = house_comissions[house_comission_index]
+
   prizes = []
 
   if utils.has_true(bet_winners):
@@ -170,8 +180,21 @@ def get_prizes (player_names, player_bets, bet_winners):
       bet_type = player_bet[1]
       player_wins = bet_winners[i]
 
-      if player_wins and bet_type == "tie":
+      if player_wins:
+        player_comission, bank_comission, tie_comissio = house_comission
+
+        if bet_type == "player":
+          bet_amount *= 1 - player_comission / 100
+
+        if bet_type == "bank":
+          bet_amount *= 1 - bank_comission / 100
+
+        if bet_type == "tie":
           bet_amount *= 8
+          bet_amount *= 1 - tie_comissio / 100
+
+        bet_amount = int(bet_amount)
+
       elif not player_wins:
           bet_amount *= -1
 

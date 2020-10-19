@@ -35,7 +35,7 @@ def play ():
 
     bet_round_winners = bets.get_winners(players_names, round_bets, cards_round_winners)
     
-    bet_prizes = bets.get_prizes(players.get_real_players(players_names), round_bets, bet_round_winners)
+    bet_prizes = bets.get_prizes(players.get_real_players(players_names), round_bets, bet_round_winners, cards.deck_amount)
 
     for i in range(0, len(bet_prizes)):
       playername = players_names[i]
