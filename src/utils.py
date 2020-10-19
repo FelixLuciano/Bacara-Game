@@ -49,6 +49,12 @@ def print_success (message):
   print(colored(text))
 
 
+def print_danger (message):
+  text = f"\n§B§y > {message}§0\n"
+
+  print(colored(text))
+
+
 def print_warn (message):
   text = f"\n§B§r > {message}§0\n"
 
@@ -70,3 +76,13 @@ def get_lower_strings (string_list):
     lower_strings.append(string.lower())
 
   return lower_strings
+
+
+def has_true (true_list):
+  result = False
+
+  for item in true_list:
+    if item:
+      result = True
+
+  return result

@@ -31,8 +31,27 @@ def play ():
 
     cards.print_cards(players_names, round_cards)
 
-    round_winners = cards.get_winners(players_names, cards_sum)
-    print(round_winners)
+    cards_round_winners = cards.get_winners(players_names, cards_sum)
+
+    bet_round_winners = bets.get_winners(players_names, round_bets, cards_round_winners)
+    
+    bet_prizes = bets.get_prizes(players.get_real_players(players_names), round_bets, bet_round_winners)
+
+    for i in range(0, len(bet_prizes)):
+      playername = players_names[i]
+      prize_amount = bet_prizes[i]
+
+      players_tokens[i] += prize_amount
+
+      if (prize_amount > 0):
+        utils.print_success(f"{playername} ganhou a aposta e recebeu {prize_amount} fichas!")
+
+      if (prize_amount < 0):
+        utils.print_danger(f"{playername} perdeu a aposta e pagou {prize_amount} fichas!")
+
+    utils.print_colored("§B§rNovo placar§0\n")
+    system.print_stats(players_names, players_tokens)
+    print("")
 
     round += 1
 

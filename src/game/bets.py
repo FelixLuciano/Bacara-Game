@@ -65,7 +65,7 @@ def ask_bets (players_names, players_tokens):
         bet_what_lower = bet_what.lower()
 
         if bet_what_lower in ["jogador", "j"]:
-          player_bet.append("p")
+          player_bet.append("player")
 
           while True:
             bet_who = input(utils.colored(f"§0Em qual jogador você aposta {bet_bid} fichas, {playername}? §y"))
@@ -84,12 +84,12 @@ def ask_bets (players_names, players_tokens):
           break
 
         elif bet_what_lower in ["banco", "b"]:
-          player_bet.append("b")
+          player_bet.append("bank")
           utils.print_success(f"{playername} apostou {bet_bid} fichas no Banco!")
           break
 
         elif bet_what_lower in ["empate", "e"]:
-          player_bet.append("t")
+          player_bet.append("tie")
           utils.print_success(f"{playername} apostou {bet_bid} fichas por um empate no jogo!")
           break
 
@@ -112,3 +112,79 @@ def ask_bets (players_names, players_tokens):
     system.game_over()
 
   return (players_names, players_tokens, players_bets)
+
+
+def get_winners (players_list, players_bets, cards_winners):
+  real_players_list = players.get_real_players(players_list)
+  
+  players_names_bets = list(zip(real_players_list, players_bets))
+  players_names_wins = list(zip(players_list, cards_winners))
+
+  winners = []
+
+  for player_name_bet in players_names_bets:
+    player_name, player_bet = player_name_bet
+    
+    bet_amount = player_bet[0]
+    bet_type = player_bet[1]
+
+    if bet_type == "player" or bet_type == "bank":
+      if bet_type == "player":
+        bet_target = player_bet[2]
+
+      if bet_type == "bank":
+        bet_target = "Banco"
+      
+      target_wins = True
+      
+      for player_name_win in players_names_wins:
+        winner_name, player_wins = player_name_win
+        
+        if player_wins and winner_name != bet_target:
+          target_wins = False
+      
+      winners.append(target_wins)
+
+    elif bet_type == "tie":
+      card_winner_count = 0
+
+      for winner in cards_winners:
+        if winner:
+          card_winner_count += 1
+
+      is_winner = card_winner_count > 1
+
+      winners.append(is_winner)
+
+  return winners
+
+
+def get_prizes (player_names, player_bets, bet_winners):
+  prizes = []
+
+  if utils.has_true(bet_winners):
+    for i in range(0, len(player_names)):
+      player_name = player_names[i]
+      player_bet = player_bets[i]
+      bet_amount = player_bet[0]
+      bet_type = player_bet[1]
+      player_wins = bet_winners[i]
+
+      if player_wins and bet_type == "tie":
+          bet_amount *= 8
+      elif not player_wins:
+          bet_amount *= -1
+
+      prizes.append(bet_amount)
+
+  else:
+    for i in range(0, len(players.get_real_players(players_names))):
+      player_name = players_names[i]
+      player_bet = round_bets[i]
+      bet_amount = player_bet[0]
+
+      prizes.append(-bet_amount)
+
+    utils.print_warn("Ninguém venceu o round!")  
+
+  return prizes

@@ -101,7 +101,7 @@ def draw_cards (players_list):
     if player_drawed_3dr_card:
       players_cards_value_sum = sum_players_cards(players.get_real_players(cards))
 
-      for possibility in ((3, (8)),(4, (0, 1, 8, 9)),(5, (0, 1, 2, 3, 8, 9))):
+      for possibility in ((3, (8, 8)), (4, (0, 1, 8, 9)), (5, (0, 1, 2, 3, 8, 9))):
         bank_cards_value_sum_possibility, player_cards_value_sum_possibilityes = possibility
 
         if bank_cards_value_sum == bank_cards_value_sum_possibility:
