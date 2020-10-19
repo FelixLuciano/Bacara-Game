@@ -5,23 +5,18 @@
 ![BACARA](assets/game.png)
 
 
-## How to install
+## Getting Started
 
-Clone this repository with the following command:
-```bash
-$ git clone https://github.com/FelixLuciano/bacara-game.git
-```
-
-Enter the folder:
-```bash
-$ cd bacara-game
-```
-
-Then run the game:
-```bash
-$ python src\index.py
-```
-
-## How to play
-
-dasdasd
+1. Clone this repository with the following command:
+    ```bash
+    $ git clone https://github.com/FelixLuciano/bacara-game.git
+    ```
+2. Enter the folder:
+    ```bash
+    $ cd bacara-game
+    ```
+3. Then run the game:
+    ```bash
+    $ python src\index.py
+    ```
+4. **Have fun!**
