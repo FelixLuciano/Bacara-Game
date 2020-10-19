@@ -49,6 +49,7 @@ def get_betting_players (players_list, tokens, bets):
 def ask_bets (players_names, players_tokens):
   players_names_tokens = list(zip(players_names, players_tokens))
   players_bets = []
+  leavers = []
 
   for player_name_tokens in players.get_real_players(players_names_tokens):
     playername, tokens = player_name_tokens
@@ -71,8 +72,9 @@ def ask_bets (players_names, players_tokens):
             bet_who = input(utils.colored(f"§0Em qual jogador você aposta {bet_bid} fichas, {playername}? §y"))
 
             bet_player = players.get_playername(bet_who, players_names)
+            bet_leaver = players.get_playername(bet_who, leavers)
 
-            if bet_player and bet_who.lower() != playername.lower():
+            if bet_player and not bet_leaver and bet_who.lower() != playername.lower():
               player_bet.append(bet_player)
               utils.print_success(f"{playername} apostou {bet_bid} fichas em {bet_player}!")
               break
@@ -96,6 +98,7 @@ def ask_bets (players_names, players_tokens):
           utils.print_colored("§0Não é possível realizar esse tipo de aposta!")
 
     else:
+      leavers.append(playername)
       utils.print_info(f"{playername} saiu do jogo com {tokens} fichas!")
 
     players_bets.append(player_bet)

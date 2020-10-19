@@ -130,7 +130,7 @@ def card_description (card_info):
 def print_player_cards (playername, cards):
   cards_points = sum_cards_values(cards)
 
-  utils.print_colored(f"\n§BCartas de §y{playername}§0:")
+  utils.print_colored(f"§BCartas de §y{playername}§0:")
 
   for card in cards:
     card_info = get_card_info(card)
