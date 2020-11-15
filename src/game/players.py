@@ -60,7 +60,7 @@ def register_players ():
     else:
       utils.print_colored(f"§0Não é possível usar esse nome!\n")
 
-  if has_players(players_list):
+  if players_list:
     players_list.append("Banco")
     tokens.append("∞")
 
